@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ form_name }}</title>
+</head>
+<body>
+
+<h1>{{ form_name }}</h1>
+<p>{{ msg }}</p>
+
+<hr>
+
+{% for question in q %}
+    <form action="{{ url_for('answer', id=id, question_answered=loop.index0) }}" method="get">
+        <label>{{ question }}</label><br>
+        <input type="text" name="answer" required>
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+{% endfor %}
+
+</body>
+</html>
