@@ -106,6 +106,9 @@ def block_sensitive_paths():
         blocked_ips.add(ip)
         save_blocklist()
         flask.abort(403, 'You have been blocked for attempting to access sensitive routes.')
+@app.route('/')
+def index():
+    return flask.render_template('home.html')
 @app.route('/create/<form_name>')
 def create_form(form_name):
     msg = flask.request.args.get('msg')
@@ -127,7 +130,7 @@ def create_form(form_name):
 from flask import render_template, request
 
 @app.route("/form/<id>")
-def show_form(id):
+def form(id):
     form = getFormFromId(id)
     form_name = form[1]
     msg = form[2]
@@ -142,7 +145,7 @@ def show_form(id):
 def answer(id, question_answered):
     answer = request.args.get("answer", "")
     print(f"Form {id} — Q{question_answered} answered: {answer}")
-    return "Answer received"
+    return f"SUBMITTING...<script>location.replace('{flask.url_for('form', id=id)}')</script>"
 @app.route('/blocked')
 def view_forms():
     return list(blocked_ips)
